@@ -2,7 +2,7 @@ resource "helm_release" "jupyterhub" {
   chart            = "jupyterhub"
   name             = "jupyterhub"
   namespace        = local.k8s_namespace
-  create_namespace = true
+  create_namespace = false
   repository       = "https://jupyterhub.github.io/helm-chart/"
   version          = var.helm_chart_version
   wait             = true
