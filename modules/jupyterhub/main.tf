@@ -23,6 +23,27 @@ resource "helm_release" "jupyterhub" {
           limit = tonumber(var.spawner_cpu_share),
           guarantee = tonumber(var.spawner_cpu_share)
         }
+      },
+      ingress = {
+        enabled = true,
+        hosts = [local.hostname],
+        annotations = {
+          "kubernetes.io/tls-acme" = "true",
+          "cert-manager.io/cluster-issuer" = var.issuer
+        },
+        tls = [{
+          hosts = [local.hostname],
+          secretName: "${var.name}-tls"
+        }
+        ]
+      }
+      proxy = {
+        service = {
+          type = "ClusterIP"
+        },
+        https = {
+          type = "offload"
+        }
       }
     }
   )]

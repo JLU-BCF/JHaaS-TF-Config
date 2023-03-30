@@ -36,3 +36,11 @@ variable "home_directory_size" {
   description = "Size of the home directory created for each user notebook, defaults to 5 GB"
   default = "5Gi"
 }
+
+variable "domain" {
+  description = "Domain name to use for deployment. The ingress will be configured with <name>.<domain>"
+}
+
+variable "issuer" {
+  description = "cluster-issuer to use for ingress"
+}
