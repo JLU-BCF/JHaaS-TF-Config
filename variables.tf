@@ -13,3 +13,15 @@ variable "issuer_email" {
 variable "domain" {
     description = "DNS domain to use for JHaaS deployments"
 }
+
+variable "authentik_url" {
+    description = "URL of the authentik API"
+}
+
+variable "authentik_token" {
+    description = "Token to authenticate / authorize at the authentik URL"
+}
+
+variable "oidc_id" {
+    description = "OIDC client id to use in authentik"
+}

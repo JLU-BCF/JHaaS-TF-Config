@@ -36,13 +36,37 @@ resource "helm_release" "jupyterhub" {
           secretName: "${var.name}-tls"
         }
         ]
-      }
+      },
       proxy = {
         service = {
           type = "ClusterIP"
         },
         https = {
           type = "offload"
+        }
+      },
+      hub = {
+        config = {
+          JupyterHub = {
+            authenticator_class = "generic-oauth"
+          },
+          Authenticator = {
+            auto_login = true
+          }
+          GenericOAuthenticator = {
+            client_id           = var.oidc_id,
+            client_secret       = var.oidc_secret,
+            scope               = ["openid", "profile", "email"],
+            claim_groups_key    = "groups",
+            admin_groups        = ["authentik Admins"],
+            logout_redirect_url = var.logout_url,
+            oauth_callback_url  = "https://${local.hostname}/hub/oauth_callback",
+            authorize_url       = var.authorize_url,
+            token_url           = var.token_url,
+            userdata_url        = var.userdata_url,
+            login_service       = var.login_service,
+            username_key        = "preferred_username"
+          }
         }
       }
     }

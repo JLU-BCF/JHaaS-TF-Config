@@ -44,3 +44,30 @@ variable "domain" {
 variable "issuer" {
   description = "cluster-issuer to use for ingress"
 }
+
+variable "oidc_id" {
+  description = "ID of registered OIDC client"
+}
+
+variable "oidc_secret" {
+  description = "Secret of registered OIDC client"
+}
+
+variable "logout_url" {
+  description = "URL to redirect to after logout"
+}
+
+variable "authorize_url" {
+}
+
+variable "token_url" {
+
+}
+
+variable "userdata_url" {
+
+}
+
+variable "login_service" {
+  
+}

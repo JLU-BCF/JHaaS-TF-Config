@@ -14,6 +14,11 @@ provider "kubectl" {
   config_path = var.kubeconfig
 }
 
+provider "authentik" {
+  url = var.authentik_url
+  token = var.authentik_token
+}
+
 # manage namespace explictly, this will allow removal of 
 # all depending objects on destroy
 resource "kubernetes_namespace" "jhaas" {
@@ -43,6 +48,15 @@ module "nginx-controller" {
   additional_set = []
 }
 
+# setup OIDC provider + application in authentik
+module "authentik" {
+  source = "./modules/authentik"
+  
+  name = var.name
+  client_id = var.oidc_id
+  redirect_uris = ["https://${var.name}.${var.domain}/hub/oauth_callback"]
+}
+
 # deploy z2jh
 module "jupyterhub" {
   source = "./modules/jupyterhub"
@@ -50,6 +64,13 @@ module "jupyterhub" {
   name = var.name
   domain = var.domain
   issuer = local.issuer
+  oidc_id = var.oidc_id
+  oidc_secret = module.authentik.oidc_secret
+  logout_url = "${var.authentik_url}/application/o/${var.name}/end-session/"
+  authorize_url      = "${var.authentik_url}/application/o/authorize/"
+  token_url          = "${var.authentik_url}/application/o/token/"
+  userdata_url       = "${var.authentik_url}/application/o/userinfo/"
+  login_service      = "JHaaS user management"
 
   depends_on = [
     kubernetes_namespace.jhaas,
