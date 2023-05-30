@@ -25,3 +25,13 @@ variable "authentik_token" {
 variable "oidc_id" {
     description = "OIDC client id to use in authentik"
 }
+
+variable "authentication_flow" {
+    description = "slug name of the authentication workflow to use"
+    default = "default-authentication-flow"
+}
+
+variable "authorization_flow" {
+    description = "slug name of the authorization workflow to use"
+    default = "default-provider-authorization-implicit-consent"
+}

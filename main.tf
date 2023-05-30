@@ -55,6 +55,8 @@ module "authentik" {
   name = var.name
   client_id = var.oidc_id
   redirect_uris = ["https://${var.name}.${var.domain}/hub/oauth_callback"]
+  authentication_flow = var.authentication_flow
+  authorization_flow = var.authorization_flow
 }
 
 # deploy z2jh

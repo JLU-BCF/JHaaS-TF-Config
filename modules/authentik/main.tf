@@ -1,7 +1,11 @@
 # create OIDC provider and appliation
 
-data "authentik_flow" "default-authorization-flow" {
-  slug = "default-provider-authorization-implicit-consent"
+data "authentik_flow" "authentication_flow" {
+  slug = var.authentication_flow
+}
+
+data "authentik_flow" "authorization_flow" {
+  slug = var.authorization_flow
 }
 
 data "authentik_scope_mapping" "default_oidc_mappings" {
@@ -14,7 +18,8 @@ data "authentik_scope_mapping" "default_oidc_mappings" {
 resource "authentik_provider_oauth2" "oidc_provider" {
     name = var.name
     redirect_uris = var.redirect_uris
-    authorization_flow = data.authentik_flow.default-authorization-flow.id
+    authorization_flow = data.authentik_flow.authorization_flow.id
+    authentication_flow = data.authentik_flow.authentication_flow.id
     client_id = var.client_id
 
     # use standard oidc mappers
