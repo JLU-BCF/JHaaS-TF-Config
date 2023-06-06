@@ -19,7 +19,7 @@ provider "authentik" {
   token = var.authentik_token
 }
 
-# manage namespace explictly, this will allow removal of 
+# manage namespace explictly, this will allow removal of
 # all depending objects on destroy
 resource "kubernetes_namespace" "jhaas" {
   metadata {
@@ -27,31 +27,10 @@ resource "kubernetes_namespace" "jhaas" {
   }
 }
 
-# install cert manager and create an issuer
-module "cert_manager" {
-  source        = "terraform-iaac/cert-manager/kubernetes"
-
-  cluster_issuer_email                   = var.issuer_email
-  cluster_issuer_name                    = local.issuer
-  cluster_issuer_private_key_secret_name = "cert-manager-${var.name}-private-key"
-}
-
-# deploy nginx ingress controller
-module "nginx-controller" {
-  source  = "terraform-iaac/nginx-controller/helm"
-
-  create_namespace = true
-  controller_kind = "Deployment"
-  namespace = "nginx-ingress"
-  define_nodePorts = false
-
-  additional_set = []
-}
-
 # setup OIDC provider + application in authentik
 module "authentik" {
   source = "./modules/authentik"
-  
+
   name = var.name
   client_id = var.oidc_id
   redirect_uris = ["https://${var.name}.${var.domain}/hub/oauth_callback"]
@@ -65,7 +44,7 @@ module "jupyterhub" {
 
   name = var.name
   domain = var.domain
-  issuer = local.issuer
+  issuer = var.issuer
   oidc_id = var.oidc_id
   oidc_secret = module.authentik.oidc_secret
   logout_url = "${var.authentik_url}/application/o/${var.name}/end-session/"
@@ -76,7 +55,5 @@ module "jupyterhub" {
 
   depends_on = [
     kubernetes_namespace.jhaas,
-    module.cert_manager,
-    module.nginx-controller
   ]
 }

@@ -9,7 +9,12 @@ resource "helm_release" "jupyterhub" {
 
   # define spawner resource limits and image
   values = [yamlencode(
-    { 
+    {
+      scheduling = {
+        userScheduler = {
+          enabled = false
+        }
+      },
       singleuser = {
         image = {
           name = local.jupyter_notebook_image_name,
@@ -79,5 +84,3 @@ resource "helm_release" "jupyterhub" {
     value = var.home_directory_size
   }
 }
-
-

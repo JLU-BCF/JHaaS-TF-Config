@@ -30,4 +30,5 @@ resource "authentik_application" "application" {
   name              = var.name
   slug              = var.name
   protocol_provider = authentik_provider_oauth2.oidc_provider.id
+  group             = local.group_name
 }

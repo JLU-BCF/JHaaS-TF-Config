@@ -2,12 +2,13 @@ variable "kubeconfig" {
     description = "Kubernetes configuration file to use"
 }
 
-variable "name" {
-    description = "Course / workshow name, will become part of the DNS name"
+variable "issuer" {
+    description = "cluster-issuer to use for ingress"
+    default = "cert-manager"
 }
 
-variable "issuer_email" {
-    description = "email address to use for certmanager issuer"
+variable "name" {
+    description = "Course / workshow name, will become part of the DNS name"
 }
 
 variable "domain" {
