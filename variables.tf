@@ -36,3 +36,8 @@ variable "authorization_flow" {
     description = "slug name of the authorization workflow to use"
     default = "default-provider-authorization-implicit-consent"
 }
+
+variable "jupyter_notebook_image" {
+  description = "The jupyter notebook image to be deployed by the chart."
+  default = "jupyter/minimal-notebook:latest"
+}

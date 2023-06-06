@@ -42,16 +42,17 @@ module "authentik" {
 module "jupyterhub" {
   source = "./modules/jupyterhub"
 
-  name = var.name
-  domain = var.domain
-  issuer = var.issuer
-  oidc_id = var.oidc_id
+  name        = var.name
+  domain      = var.domain
+  issuer      = var.issuer
+  oidc_id     = var.oidc_id
   oidc_secret = module.authentik.oidc_secret
-  logout_url = "${var.authentik_url}/application/o/${var.name}/end-session/"
-  authorize_url      = "${var.authentik_url}/application/o/authorize/"
-  token_url          = "${var.authentik_url}/application/o/token/"
-  userdata_url       = "${var.authentik_url}/application/o/userinfo/"
-  login_service      = "JHaaS user management"
+  logout_url              = "${var.authentik_url}/application/o/${var.name}/end-session/"
+  authorize_url           = "${var.authentik_url}/application/o/authorize/"
+  token_url               = "${var.authentik_url}/application/o/token/"
+  userdata_url            = "${var.authentik_url}/application/o/userinfo/"
+  login_service           = "JHaaS user management"
+  jupyter_notebook_image  = var.jupyter_notebook_image
 
   depends_on = [
     kubernetes_namespace.jhaas,
