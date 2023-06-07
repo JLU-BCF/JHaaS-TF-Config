@@ -27,8 +27,18 @@ resource "authentik_provider_oauth2" "oidc_provider" {
 }
 
 resource "authentik_application" "application" {
-  name              = var.name
+  name              = var.jh_display_name
   slug              = var.name
   protocol_provider = authentik_provider_oauth2.oidc_provider.id
   group             = local.group_name
+  meta_description  = var.jh_description
+  meta_icon         = var.jh_icon
+  meta_publisher    = var.jh_hostname
+  meta_launch_url   = "https://${var.jh_hostname}/"
+}
+
+resource "authentik_policy_binding" "group_binding" {
+  order             = 0
+  target            = authentik_application.application.uuid
+  group             = var.authentik_jh_group_id
 }

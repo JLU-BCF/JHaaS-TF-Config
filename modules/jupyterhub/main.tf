@@ -63,7 +63,7 @@ resource "helm_release" "jupyterhub" {
             client_secret       = var.oidc_secret,
             scope               = ["openid", "profile", "email"],
             admin_groups        = ["admins"],
-            allowed_groups      = ["admins", var.name],
+            allowed_groups      = ["admins", "jh_${var.name}"],
             logout_redirect_url = var.logout_url,
             oauth_callback_url  = "https://${local.hostname}/hub/oauth_callback",
             authorize_url       = var.authorize_url,

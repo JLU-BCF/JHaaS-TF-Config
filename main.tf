@@ -29,13 +29,19 @@ resource "kubernetes_namespace" "jhaas" {
 
 # setup OIDC provider + application in authentik
 module "authentik" {
-  source = "./modules/authentik"
+  source  = "./modules/authentik"
 
-  name = var.name
-  client_id = var.oidc_id
+  name          = var.name
+  client_id     = var.oidc_id
   redirect_uris = ["https://${var.name}.${var.domain}/hub/oauth_callback"]
-  authentication_flow = var.authentication_flow
-  authorization_flow = var.authorization_flow
+
+  authentication_flow     = var.authentication_flow
+  authorization_flow      = var.authorization_flow
+  authentik_jh_group_id   = var.authentik_jh_group_id
+  jh_display_name         = var.jh_display_name
+  jh_description          = var.jh_description
+  jh_icon                 = var.jh_icon
+  jh_hostname             = local.jh_hostname
 }
 
 # deploy z2jh
