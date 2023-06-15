@@ -70,8 +70,8 @@ resource "helm_release" "jupyterhub" {
             token_url           = var.token_url,
             userdata_url        = var.userdata_url,
             login_service       = var.login_service,
-            username_claim      = "preferred_username",
-            username_key        = "preferred_username"
+            username_claim      = "sub",
+            username_key        = "sub"
           }
         }
       }
