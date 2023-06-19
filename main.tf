@@ -58,7 +58,9 @@ module "jupyterhub" {
   token_url               = "${var.authentik_url}/application/o/token/"
   userdata_url            = "${var.authentik_url}/application/o/userinfo/"
   login_service           = "JHaaS user management"
-  jupyter_notebook_image  = var.jupyter_notebook_image
+
+  jupyter_notebook_image        = var.jupyter_notebook_image
+  jupyter_notebook_default_url  = var.jupyter_notebook_default_url
 
   depends_on = [
     kubernetes_namespace.jhaas,

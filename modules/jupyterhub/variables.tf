@@ -21,6 +21,11 @@ variable "jupyter_notebook_image" {
   default = "jupyter/minimal-notebook:latest"
 }
 
+variable "jupyter_notebook_default_url" {
+  description = "Sets the default notebook URL."
+  default = null
+}
+
 variable "spawner_memory_limit" {
   description = "Memory limit for user notebook pods, defaults to 1 GB"
   default = "1G"
@@ -69,5 +74,5 @@ variable "userdata_url" {
 }
 
 variable "login_service" {
-  
+
 }

@@ -42,6 +42,11 @@ variable "jupyter_notebook_image" {
     default = "jupyter/minimal-notebook:latest"
 }
 
+variable "jupyter_notebook_default_url" {
+  description = "Sets the default notebook URL."
+  default = null
+}
+
 variable "authentik_jh_group_id" {
     description = "ID of the group that will be bound to the application"
 }

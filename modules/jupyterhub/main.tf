@@ -27,7 +27,8 @@ resource "helm_release" "jupyterhub" {
         cpu = {
           limit = tonumber(var.spawner_cpu_share),
           guarantee = tonumber(var.spawner_cpu_share)
-        }
+        },
+        defaultUrl = var.jupyter_notebook_default_url
       },
       ingress = {
         enabled = true,
