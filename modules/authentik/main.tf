@@ -21,7 +21,7 @@ resource "authentik_provider_oauth2" "oidc_provider" {
     authorization_flow = data.authentik_flow.authorization_flow.id
     authentication_flow = data.authentik_flow.authentication_flow.id
     client_id = var.client_id
-    sub_mode = "user_id"
+    sub_mode = "user_uuid"
 
     # use standard oidc mappers
     property_mappings = data.authentik_scope_mapping.default_oidc_mappings.ids
