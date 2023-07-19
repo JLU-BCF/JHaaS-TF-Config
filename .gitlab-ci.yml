@@ -3,7 +3,7 @@ variables:
   TERRAFORM_MODULE_NAME: jhaas-jupyterhub
   TERRAFORM_MODULE_SYSTEM: local
   TERRAFORM_MODULE_VERSION: 0.1.0
-  TF_IMAGE=hashicorp/terraform
+  TF_IMAGE: hashicorp/terraform
 
 stages:
   - codequality
