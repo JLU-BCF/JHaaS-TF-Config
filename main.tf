@@ -28,16 +28,16 @@ resource "kubernetes_namespace" "jhaas" {
 }
 
 resource "kubernetes_resource_quota" "jhaas" {
-  depends_on = [ kubernetes_namespace.jhaas ]
+  depends_on = [kubernetes_namespace.jhaas]
 
   metadata {
-    name = "${local.k8s_namespace}-quota"
+    name      = "${local.k8s_namespace}-quota"
     namespace = local.k8s_namespace
   }
 
   spec {
     hard = {
-      cpu = var.ns_cpu_limit,
+      cpu    = var.ns_cpu_limit,
       memory = var.ns_ram_limit
     }
   }
@@ -47,7 +47,7 @@ resource "kubernetes_resource_quota" "jhaas" {
 module "authentik" {
   source = "./modules/authentik"
 
-  depends_on = [ kubernetes_namespace.jhaas ]
+  depends_on = [kubernetes_namespace.jhaas]
 
   name          = var.name
   client_id     = var.oidc_id
@@ -66,7 +66,7 @@ module "authentik" {
 module "jupyterhub" {
   source = "./modules/jupyterhub"
 
-  depends_on = [ module.authentik ]
+  depends_on = [module.authentik]
 
   name          = var.name
   domain        = var.domain
