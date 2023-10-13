@@ -21,12 +21,12 @@ resource "helm_release" "jupyterhub" {
           tag = local.jupyter_notebook_image_tag == "" ? "latest" : local.jupyter_notebook_image_tag
         },
         memory = {
-          limit = var.spawner_memory_limit,
-          guarantee =var.spawner_memory_limit
+          limit = var.nb_ram_limit,
+          guarantee =var.nb_ram_guarantee
         },
         cpu = {
-          limit = tonumber(var.spawner_cpu_share),
-          guarantee = tonumber(var.spawner_cpu_share)
+          limit = tonumber(var.nb_cpu_limit),
+          guarantee = tonumber(var.nb_cpu_guarantee)
         },
         defaultUrl = var.jupyter_notebook_default_url
       },
@@ -52,6 +52,7 @@ resource "helm_release" "jupyterhub" {
         }
       },
       hub = {
+        activeServerLimit = tonumber(var.nb_count_limit),
         config = {
           JupyterHub = {
             authenticator_class = "generic-oauth"
@@ -79,9 +80,15 @@ resource "helm_release" "jupyterhub" {
     }
   )]
 
-  # size of the notebook home director volume
+  # size of the notebook home directory volume
   set {
     name = "singleuser.storage.capacity"
-    value = var.home_directory_size
+    value = var.nb_home_size
+  }
+
+  # mount path of the notebook home directory volume
+  set {
+    name = "singleuser.storage.homeMountPath"
+    value = var.nb_home_mount_path
   }
 }

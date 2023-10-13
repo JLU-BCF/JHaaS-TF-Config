@@ -64,3 +64,48 @@ variable "jh_icon" {
   description = "Icon to show for the Jupyter Hub Application"
   default     = "https://raw.githubusercontent.com/jupyterhub/jupyterhub/4.0.0/docs/source/_static/images/logo/favicon.ico"
 }
+
+variable "nb_count_limit" {
+  description = "Maximum allowed number of parallel Jupyter Notebooks in the Jupyter Hub"
+  default = "25"
+}
+
+variable "nb_home_size" {
+  description = "Size of the home directory created for each user notebook"
+  default = "5Gi"
+}
+
+variable "nb_home_mount_path" {
+  description = "Size of the home directory created for each user notebook"
+  default = "/home/jovyan"
+}
+
+variable "nb_ram_guarantee" {
+  description = "RAM Guarantee for a single Jupyter Notebook"
+  default = "512Mi"
+}
+
+variable "nb_cpu_guarantee" {
+  description = "CPU Guarantee for a single Jupyter Notebook"
+  default = "0.25"
+}
+
+variable "nb_ram_limit" {
+  description = "RAM Limit for a single Jupyter Notebook"
+  default = "2Gi"
+}
+
+variable "nb_cpu_limit" {
+  description = "CPU Limit for a single Jupyter Notebook"
+  default = "1"
+}
+
+variable "ns_ram_limit" {
+  description = "RAM Limit for Namespace, user_count x ram_limit + static"
+  default = "55Gi"
+}
+
+variable "ns_cpu_limit" {
+  description = "value"
+  default = "30"
+}

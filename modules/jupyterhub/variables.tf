@@ -26,15 +26,39 @@ variable "jupyter_notebook_default_url" {
   default = null
 }
 
-variable "spawner_memory_limit" {
-  description = "Memory limit for user notebook pods, defaults to 1 GB"
-  default = "1G"
+variable "nb_count_limit" {
+  description = "Maximum allowed number of parallel Jupyter Notebooks in the Jupyter Hub"
+  default = "25"
 }
 
-variable "spawner_cpu_share" {
-  description = "CPU share limit of user notebook pods, defaults to 0.5"
-  default = 0.5
-  type = number
+variable "nb_home_size" {
+  description = "Size of the home directory created for each user notebook"
+  default = "5Gi"
+}
+
+variable "nb_home_mount_path" {
+  description = "Size of the home directory created for each user notebook"
+  default = "/home/jovyan"
+}
+
+variable "nb_ram_guarantee" {
+  description = "RAM Guarantee for a single Jupyter Notebook"
+  default = "512Mi"
+}
+
+variable "nb_cpu_guarantee" {
+  description = "CPU Guarantee for a single Jupyter Notebook"
+  default = "0.25"
+}
+
+variable "nb_ram_limit" {
+  description = "RAM Limit for a single Jupyter Notebook"
+  default = "2Gi"
+}
+
+variable "nb_cpu_limit" {
+  description = "CPU Limit for a single Jupyter Notebook"
+  default = "1"
 }
 
 variable "home_directory_size" {

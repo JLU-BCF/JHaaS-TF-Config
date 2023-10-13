@@ -27,9 +27,27 @@ resource "kubernetes_namespace" "jhaas" {
   }
 }
 
+resource "kubernetes_resource_quota" "jhaas" {
+  depends_on = [ kubernetes_namespace.jhaas ]
+
+  metadata {
+    name = "${local.k8s_namespace}-quota"
+    namespace = local.k8s_namespace
+  }
+
+  spec {
+    hard = {
+      cpu = var.ns_cpu_limit,
+      memory = var.ns_ram_limit
+    }
+  }
+}
+
 # setup OIDC provider + application in authentik
 module "authentik" {
   source = "./modules/authentik"
+
+  depends_on = [ kubernetes_namespace.jhaas ]
 
   name          = var.name
   client_id     = var.oidc_id
@@ -48,6 +66,8 @@ module "authentik" {
 module "jupyterhub" {
   source = "./modules/jupyterhub"
 
+  depends_on = [ module.authentik ]
+
   name          = var.name
   domain        = var.domain
   issuer        = var.issuer
@@ -59,10 +79,14 @@ module "jupyterhub" {
   userdata_url  = "${var.authentik_url}/application/o/userinfo/"
   login_service = "JHaaS user management"
 
+  nb_count_limit     = var.nb_count_limit
+  nb_home_size       = var.nb_home_size
+  nb_home_mount_path = var.nb_home_mount_path
+  nb_ram_guarantee   = var.nb_ram_guarantee
+  nb_cpu_guarantee   = var.nb_cpu_guarantee
+  nb_ram_limit       = var.nb_ram_limit
+  nb_cpu_limit       = var.nb_cpu_limit
+
   jupyter_notebook_image       = var.jupyter_notebook_image
   jupyter_notebook_default_url = var.jupyter_notebook_default_url
-
-  depends_on = [
-    kubernetes_namespace.jhaas,
-  ]
 }
