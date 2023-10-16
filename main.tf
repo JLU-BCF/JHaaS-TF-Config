@@ -30,6 +30,8 @@ resource "kubernetes_namespace" "jhaas" {
 resource "kubernetes_resource_quota" "jhaas" {
   depends_on = [kubernetes_namespace.jhaas]
 
+  count = var.apply_ns_resource_quota ? 1 : 0
+
   metadata {
     name      = "${local.k8s_namespace}-quota"
     namespace = local.k8s_namespace

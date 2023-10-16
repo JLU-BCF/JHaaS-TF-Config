@@ -109,3 +109,9 @@ variable "ns_cpu_limit" {
   description = "value"
   default     = "30"
 }
+
+variable "apply_ns_resource_quota" {
+  description = "Controls if a resource quota for namespace should be deployed"
+  type = bool
+  default = false
+}
