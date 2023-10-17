@@ -64,6 +64,7 @@ resource "helm_release" "jupyterhub" {
             client_id           = var.oidc_id,
             client_secret       = var.oidc_secret,
             scope               = ["openid", "profile", "email"],
+            admin_users         = var.jh_admin_id ? [var.jh_admin_id] : [],
             admin_groups        = ["admins"],
             allowed_groups      = ["admins", "jh_${var.name}"],
             logout_redirect_url = var.logout_url,

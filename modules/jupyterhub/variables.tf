@@ -26,6 +26,11 @@ variable "jupyter_notebook_default_url" {
   default = null
 }
 
+variable "jh_admin_id" {
+  description = "If set, contains the ID of the course leader."
+  default = null
+}
+
 variable "nb_count_limit" {
   description = "Maximum allowed number of parallel Jupyter Notebooks in the Jupyter Hub"
   default = "25"

@@ -81,6 +81,8 @@ module "jupyterhub" {
   userdata_url  = "${var.authentik_url}/application/o/userinfo/"
   login_service = "JHaaS user management"
 
+  jh_admin_id = var.jh_admin_id
+
   nb_count_limit     = var.nb_count_limit
   nb_home_size       = var.nb_home_size
   nb_home_mount_path = var.nb_home_mount_path

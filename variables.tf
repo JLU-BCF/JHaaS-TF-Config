@@ -65,6 +65,11 @@ variable "jh_icon" {
   default     = "https://raw.githubusercontent.com/jupyterhub/jupyterhub/4.0.0/docs/source/_static/images/logo/favicon.ico"
 }
 
+variable "jh_admin_id" {
+  description = "If set, contains the ID of the course leader."
+  default     = null
+}
+
 variable "nb_count_limit" {
   description = "Maximum allowed number of parallel Jupyter Notebooks in the Jupyter Hub"
   default     = "25"
