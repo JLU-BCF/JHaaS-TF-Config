@@ -56,7 +56,6 @@ resource "helm_release" "jupyterhub" {
         config = {
           JupyterHub = {
             admin_access = true,
-            admin_users = var.jh_admin_id == null ? [] : [var.jh_admin_id],
             authenticator_class = "generic-oauth"
           },
           Authenticator = {
@@ -67,7 +66,7 @@ resource "helm_release" "jupyterhub" {
             client_secret       = var.oidc_secret,
             scope               = ["openid", "profile", "email"],
             admin_users         = var.jh_admin_id == null ? [] : [var.jh_admin_id],
-            admin_groups        = ["admins"],
+            admin_groups        = ["admins", "jhadm_${var.name}"],
             allowed_groups      = ["admins", "jh_${var.name}"],
             logout_redirect_url = var.logout_url,
             oauth_callback_url  = "https://${local.hostname}/hub/oauth_callback",
