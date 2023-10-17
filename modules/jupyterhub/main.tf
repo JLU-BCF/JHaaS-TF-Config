@@ -55,6 +55,8 @@ resource "helm_release" "jupyterhub" {
         activeServerLimit = tonumber(var.nb_count_limit),
         config = {
           JupyterHub = {
+            admin_access = true,
+            admin_users = var.jh_admin_id == null ? [] : [var.jh_admin_id],
             authenticator_class = "generic-oauth"
           },
           Authenticator = {
