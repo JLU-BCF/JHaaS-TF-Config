@@ -1,5 +1,7 @@
 # main jhaas control file
 
+provider "random" {}
+
 provider "helm" {
   kubernetes {
     config_path = var.kubeconfig

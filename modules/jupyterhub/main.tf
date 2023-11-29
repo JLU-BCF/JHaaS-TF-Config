@@ -1,3 +1,8 @@
+resource "random_password" "jhaas_service_token" {
+  length  = 60
+  special = false
+}
+
 resource "helm_release" "jupyterhub" {
   chart            = "jupyterhub"
   name             = "jupyterhub"
@@ -6,6 +11,8 @@ resource "helm_release" "jupyterhub" {
   repository       = "https://jupyterhub.github.io/helm-chart/"
   version          = var.helm_chart_version
   wait             = true
+
+  depends_on = [ random_password.jhaas_service_token ]
 
   # define spawner resource limits and image
   values = [yamlencode(
@@ -40,8 +47,7 @@ resource "helm_release" "jupyterhub" {
         tls = [{
           hosts = [local.hostname],
           secretName: "${var.name}-tls"
-        }
-        ]
+        }]
       },
       proxy = {
         service = {
@@ -60,7 +66,7 @@ resource "helm_release" "jupyterhub" {
           },
           Authenticator = {
             auto_login = true
-          }
+          },
           GenericOAuthenticator = {
             client_id           = var.oidc_id,
             client_secret       = var.oidc_secret,
@@ -76,6 +82,12 @@ resource "helm_release" "jupyterhub" {
             login_service       = var.login_service,
             username_claim      = "sub",
             username_key        = "sub"
+          },
+          services = {
+            jhaas = {
+              admin = true,
+              api_token = random_password.jhaas_service_token.result
+            }
           }
         }
       }
