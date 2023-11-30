@@ -12,7 +12,7 @@ resource "helm_release" "jupyterhub" {
   version          = var.helm_chart_version
   wait             = true
 
-  depends_on = [ random_password.jhaas_service_token ]
+  depends_on = [random_password.jhaas_service_token]
 
   # define spawner resource limits and image
   values = [yamlencode(
@@ -25,28 +25,28 @@ resource "helm_release" "jupyterhub" {
       singleuser = {
         image = {
           name = local.jupyter_notebook_image_name,
-          tag = local.jupyter_notebook_image_tag == "" ? "latest" : local.jupyter_notebook_image_tag
+          tag  = local.jupyter_notebook_image_tag == "" ? "latest" : local.jupyter_notebook_image_tag
         },
         memory = {
-          limit = var.nb_ram_limit,
-          guarantee =var.nb_ram_guarantee
+          limit     = var.nb_ram_limit,
+          guarantee = var.nb_ram_guarantee
         },
         cpu = {
-          limit = tonumber(var.nb_cpu_limit),
+          limit     = tonumber(var.nb_cpu_limit),
           guarantee = tonumber(var.nb_cpu_guarantee)
         },
         defaultUrl = var.jupyter_notebook_default_url
       },
       ingress = {
         enabled = true,
-        hosts = [local.hostname],
+        hosts   = [local.hostname],
         annotations = {
-          "kubernetes.io/tls-acme" = "true",
+          "kubernetes.io/tls-acme"         = "true",
           "cert-manager.io/cluster-issuer" = var.issuer
         },
         tls = [{
           hosts = [local.hostname],
-          secretName: "${var.name}-tls"
+          secretName : "${var.name}-tls"
         }]
       },
       proxy = {
@@ -61,7 +61,7 @@ resource "helm_release" "jupyterhub" {
         activeServerLimit = tonumber(var.nb_count_limit),
         config = {
           JupyterHub = {
-            admin_access = true,
+            admin_access        = true,
             authenticator_class = "generic-oauth"
           },
           Authenticator = {
@@ -82,12 +82,19 @@ resource "helm_release" "jupyterhub" {
             login_service       = var.login_service,
             username_claim      = "sub",
             username_key        = "sub"
-          },
-          services = {
-            jhaas = {
-              admin = true,
-              api_token = random_password.jhaas_service_token.result
-            }
+          }
+        },
+        services = {
+          jhaas-portal = {
+            admin     = true,
+            api_token = random_password.jhaas_service_token.result
+          }
+        },
+        loadRoles = {
+          jhaas-portal = {
+            description = "Admin API Access for the JHaaS Portal",
+            scopes      = ["admin:users"],
+            services    = ["jhaas-portal"]
           }
         }
       }
@@ -96,13 +103,13 @@ resource "helm_release" "jupyterhub" {
 
   # size of the notebook home directory volume
   set {
-    name = "singleuser.storage.capacity"
+    name  = "singleuser.storage.capacity"
     value = var.nb_home_size
   }
 
   # mount path of the notebook home directory volume
   set {
-    name = "singleuser.storage.homeMountPath"
+    name  = "singleuser.storage.homeMountPath"
     value = var.nb_home_mount_path
   }
 }
