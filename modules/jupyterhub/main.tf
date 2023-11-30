@@ -93,7 +93,7 @@ resource "helm_release" "jupyterhub" {
         loadRoles = {
           jhaas-portal = {
             description = "Admin API Access for the JHaaS Portal",
-            scopes      = ["admin:users"],
+            scopes      = ["admin:users", "admin:groups", "admin:servers"],
             services    = ["jhaas-portal"]
           }
         }
