@@ -1,8 +1,3 @@
-resource "random_password" "jhaas_service_token" {
-  length  = 60
-  special = false
-}
-
 resource "helm_release" "jupyterhub" {
   chart            = "jupyterhub"
   name             = "jupyterhub"
@@ -11,8 +6,6 @@ resource "helm_release" "jupyterhub" {
   repository       = "https://jupyterhub.github.io/helm-chart/"
   version          = var.helm_chart_version
   wait             = true
-
-  depends_on = [random_password.jhaas_service_token]
 
   # define spawner resource limits and image
   values = [yamlencode(
@@ -87,7 +80,7 @@ resource "helm_release" "jupyterhub" {
         services = {
           jhaas-portal = {
             admin     = true,
-            api_token = random_password.jhaas_service_token.result
+            api_token = var.service_portal_api_token
           }
         },
         loadRoles = {

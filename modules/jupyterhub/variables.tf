@@ -95,13 +95,13 @@ variable "authorize_url" {
 }
 
 variable "token_url" {
-
 }
 
 variable "userdata_url" {
-
 }
 
 variable "login_service" {
+}
 
+variable "service_portal_api_token" {
 }

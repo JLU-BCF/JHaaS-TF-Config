@@ -1,7 +1,5 @@
 # main jhaas control file
 
-provider "random" {}
-
 provider "helm" {
   kubernetes {
     config_path = var.kubeconfig
@@ -95,4 +93,6 @@ module "jupyterhub" {
 
   jupyter_notebook_image       = var.jupyter_notebook_image
   jupyter_notebook_default_url = var.jupyter_notebook_default_url
+
+  service_portal_api_token = var.jh_api_token
 }
