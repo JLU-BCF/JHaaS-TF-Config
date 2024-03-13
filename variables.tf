@@ -120,3 +120,8 @@ variable "apply_ns_resource_quota" {
   type        = bool
   default     = false
 }
+
+variable "jh_api_token" {
+  description = "API Token for the JHaaS Portal Service"
+  type        = string
+}

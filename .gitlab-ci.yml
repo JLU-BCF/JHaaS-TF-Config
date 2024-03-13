@@ -2,7 +2,7 @@ variables:
   TERRAFORM_MODULE_DIR: ${CI_PROJECT_DIR}
   TERRAFORM_MODULE_NAME: jhaas-jupyterhub
   TERRAFORM_MODULE_SYSTEM: local
-  TERRAFORM_MODULE_VERSION: 0.1.7
+  TERRAFORM_MODULE_VERSION: 0.1.8
   TF_IMAGE: hashicorp/terraform
 
 stages:
@@ -20,9 +20,13 @@ tf-fmt:
 tf-package:
   stage: package
   image: alpine:3.18
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - when: manual
+
   script:
     - apk add --no-cache curl
     - tar -vczf /tmp/${TERRAFORM_MODULE_NAME}-${TERRAFORM_MODULE_SYSTEM}-${TERRAFORM_MODULE_VERSION}.tgz -C ${TERRAFORM_MODULE_DIR} --exclude=./.git --exclude=./.gitignore --exclude=./.gitlab-ci.yml .
     - 'curl --fail-with-body --location --header "JOB-TOKEN: ${CI_JOB_TOKEN}"
-         --upload-file /tmp/${TERRAFORM_MODULE_NAME}-${TERRAFORM_MODULE_SYSTEM}-${TERRAFORM_MODULE_VERSION}.tgz
-         ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/terraform/modules/${TERRAFORM_MODULE_NAME}/${TERRAFORM_MODULE_SYSTEM}/${TERRAFORM_MODULE_VERSION}/file'
+      --upload-file /tmp/${TERRAFORM_MODULE_NAME}-${TERRAFORM_MODULE_SYSTEM}-${TERRAFORM_MODULE_VERSION}.tgz
+      ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/terraform/modules/${TERRAFORM_MODULE_NAME}/${TERRAFORM_MODULE_SYSTEM}/${TERRAFORM_MODULE_VERSION}/file'
