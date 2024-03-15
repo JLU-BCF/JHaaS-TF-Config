@@ -70,16 +70,17 @@ module "jupyterhub" {
 
   depends_on = [module.authentik]
 
-  name          = var.name
-  domain        = var.domain
-  issuer        = var.issuer
-  oidc_id       = var.oidc_id
-  oidc_secret   = module.authentik.oidc_secret
-  logout_url    = "${var.authentik_url}/application/o/${var.name}/end-session/"
-  authorize_url = "${var.authentik_url}/application/o/authorize/"
-  token_url     = "${var.authentik_url}/application/o/token/"
-  userdata_url  = "${var.authentik_url}/application/o/userinfo/"
-  login_service = "JHaaS user management"
+  helm_chart_version = var.jh_chart_version
+  name               = var.name
+  domain             = var.domain
+  issuer             = var.issuer
+  oidc_id            = var.oidc_id
+  oidc_secret        = module.authentik.oidc_secret
+  logout_url         = "${var.authentik_url}/application/o/${var.name}/end-session/"
+  authorize_url      = "${var.authentik_url}/application/o/authorize/"
+  token_url          = "${var.authentik_url}/application/o/token/"
+  userdata_url       = "${var.authentik_url}/application/o/userinfo/"
+  login_service      = "JHaaS user management"
 
   jh_admin_id = var.jh_admin_id
 

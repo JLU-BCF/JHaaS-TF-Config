@@ -13,7 +13,7 @@ variable "name" {
 
 variable "helm_chart_version" {
   description = "Version of the helm chart to deploy"
-  default = "2.0.0"
+  default = null
 }
 
 variable "jupyter_notebook_image" {

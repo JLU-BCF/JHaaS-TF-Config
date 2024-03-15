@@ -7,6 +7,11 @@ variable "issuer" {
   default     = "cert-manager"
 }
 
+variable "jh_chart_version" {
+  description = "Version of the helm chart for the jupyterhub to deploy"
+  default     = null
+}
+
 variable "name" {
   description = "Course / workshow name, will become part of the DNS name"
 }
