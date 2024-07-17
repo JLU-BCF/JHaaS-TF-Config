@@ -2,7 +2,7 @@ variables:
   TERRAFORM_MODULE_DIR: ${CI_PROJECT_DIR}
   TERRAFORM_MODULE_NAME: jhaas-jupyterhub
   TERRAFORM_MODULE_SYSTEM: local
-  TERRAFORM_MODULE_VERSION: 0.1.9
+  TERRAFORM_MODULE_VERSION: 0.1.10
   TF_IMAGE: hashicorp/terraform
 
 stages:
@@ -21,7 +21,7 @@ tf-package:
   stage: package
   image: alpine:3.18
   rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    # - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
     - when: manual
 
   script:
