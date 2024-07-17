@@ -10,10 +10,6 @@ provider "kubernetes" {
   config_path = var.kubeconfig
 }
 
-provider "kubectl" {
-  config_path = var.kubeconfig
-}
-
 provider "authentik" {
   url   = var.authentik_url
   token = var.authentik_token
