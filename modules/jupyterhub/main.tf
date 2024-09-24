@@ -64,8 +64,7 @@ resource "helm_release" "jupyterhub" {
             client_id           = var.oidc_id,
             client_secret       = var.oidc_secret,
             scope               = ["openid", "profile", "email"],
-            admin_users         = var.jh_admin_id == null ? [] : [var.jh_admin_id],
-            admin_groups        = ["admins", "jhadm_${var.name}"],
+            admin_groups        = ["admins"],
             allowed_groups      = ["admins", "jh_${var.name}"],
             logout_redirect_url = var.logout_url,
             oauth_callback_url  = "https://${local.hostname}/hub/oauth_callback",
@@ -88,6 +87,11 @@ resource "helm_release" "jupyterhub" {
             description = "Admin API Access for the JHaaS Portal",
             scopes      = ["admin:users", "admin:groups", "admin:servers"],
             services    = ["jhaas-portal"]
+          },
+          teacher = {
+            description = "Allow teachers to access user notebooks",
+            scopes      = ["shares"],
+            users       = var.jh_admin_id == null ? [] : [var.jh_admin_id]
           }
         }
       }
