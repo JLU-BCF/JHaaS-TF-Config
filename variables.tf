@@ -34,12 +34,17 @@ variable "oidc_id" {
 
 variable "authentication_flow" {
   description = "slug name of the authentication workflow to use"
-  default     = "default-authentication-flow"
+  default     = "auth"
 }
 
 variable "authorization_flow" {
   description = "slug name of the authorization workflow to use"
-  default     = "default-provider-authorization-implicit-consent"
+  default     = "consent"
+}
+
+variable "invalidation_flow" {
+  description = "slug name of the invalidation workflow to use"
+  default     = "logout"
 }
 
 variable "jupyter_notebook_image" {

@@ -53,6 +53,7 @@ module "authentik" {
 
   authentication_flow   = var.authentication_flow
   authorization_flow    = var.authorization_flow
+  invalidation_flow     = var.invalidation_flow
   authentik_jh_group_id = var.authentik_jh_group_id
   jh_display_name       = var.jh_display_name
   jh_description        = var.jh_description

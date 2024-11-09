@@ -8,7 +8,11 @@ data "authentik_flow" "authorization_flow" {
   slug = var.authorization_flow
 }
 
-data "authentik_scope_mapping" "default_oidc_mappings" {
+data "authentik_flow" "invalidation_flow" {
+  slug = var.invalidation_flow
+}
+
+data "authentik_property_mapping_provider_scope" "default_oidc_mappings" {
   managed_list = [
     "goauthentik.io/providers/oauth2/scope-email",
     "goauthentik.io/providers/oauth2/scope-openid",
@@ -20,11 +24,12 @@ resource "authentik_provider_oauth2" "oidc_provider" {
     redirect_uris = var.redirect_uris
     authorization_flow = data.authentik_flow.authorization_flow.id
     authentication_flow = data.authentik_flow.authentication_flow.id
+    invalidation_flow = data.authentik_flow.invalidation_flow.id
     client_id = var.client_id
     sub_mode = "user_uuid"
 
     # use standard oidc mappers
-    property_mappings = data.authentik_scope_mapping.default_oidc_mappings.ids
+    property_mappings = data.authentik_property_mapping_provider_scope.default_oidc_mappings.ids
 }
 
 resource "authentik_application" "application" {
