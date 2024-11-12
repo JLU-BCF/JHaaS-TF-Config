@@ -90,7 +90,7 @@ resource "helm_release" "jupyterhub" {
           },
           teacher = {
             description = "Allow teachers to access user notebooks",
-            scopes      = ["shares"],
+            scopes      = ["access:servers"],
             users       = var.jh_admin_id == null ? [] : [var.jh_admin_id]
           }
         }
