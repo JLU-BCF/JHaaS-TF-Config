@@ -12,6 +12,10 @@ data "authentik_flow" "invalidation_flow" {
   slug = var.invalidation_flow
 }
 
+data "authentik_group" "admins" {
+  name = "admins"
+}
+
 data "authentik_property_mapping_provider_scope" "default_oidc_mappings" {
   managed_list = [
     "goauthentik.io/providers/oauth2/scope-email",
@@ -19,6 +23,7 @@ data "authentik_property_mapping_provider_scope" "default_oidc_mappings" {
     "goauthentik.io/providers/oauth2/scope-profile"
   ]
 }
+
 resource "authentik_provider_oauth2" "oidc_provider" {
     name = var.name
     redirect_uris = var.redirect_uris
@@ -47,4 +52,10 @@ resource "authentik_policy_binding" "group_binding" {
   order             = 0
   target            = authentik_application.application.uuid
   group             = var.authentik_jh_group_id
+}
+
+resource "authentik_policy_binding" "group_binding" {
+  order             = 10
+  target            = authentik_application.application.uuid
+  group             = authentik_group.admins.id
 }
