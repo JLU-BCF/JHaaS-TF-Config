@@ -57,5 +57,5 @@ resource "authentik_policy_binding" "group_binding" {
 resource "authentik_policy_binding" "admin_group_binding" {
   order             = 10
   target            = authentik_application.application.uuid
-  group             = authentik_group.admins.id
+  group             = data.authentik_group.admins.id
 }
