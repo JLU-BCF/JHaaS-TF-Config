@@ -92,5 +92,9 @@ module "jupyterhub" {
   jupyter_notebook_image       = var.jupyter_notebook_image
   jupyter_notebook_default_url = var.jupyter_notebook_default_url
 
+  jh_placeholder_replicas   = var.jh_placeholder_replicas
+  jh_concurrent_spawn_limit = var.jh_concurrent_spawn_limit
+  nb_start_timeout          = var.nb_start_timeout
+
   service_portal_api_token = var.jh_api_token
 }

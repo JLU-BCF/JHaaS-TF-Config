@@ -80,6 +80,21 @@ variable "jh_admin_id" {
   default     = null
 }
 
+variable "jh_placeholder_replicas" {
+  description = "Number of notebook placeholders to maintain"
+  default     = "8"
+}
+
+variable "jh_concurrent_spawn_limit" {
+  description = "Allowed number of concurrent spawning notebooks"
+  default     = "32"
+}
+
+variable "nb_start_timeout" {
+  description = "How long to wait for Notebook before considering startup failed"
+  default     = "600"
+}
+
 variable "nb_count_limit" {
   description = "Maximum allowed number of parallel Jupyter Notebooks in the Jupyter Hub"
   default     = "25"

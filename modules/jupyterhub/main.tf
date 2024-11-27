@@ -12,7 +12,16 @@ resource "helm_release" "jupyterhub" {
     {
       scheduling = {
         userScheduler = {
-          enabled = false
+          enabled = true
+        },
+        podPriority = {
+          enabled                 = true,
+          defaultPriority         = 0,
+          imagePullerPriority     = -3,
+          userPlaceholderPriority = -5
+        },
+        userPlaceholder = {
+          replicas = tonumber(var.jh_placeholder_replicas)
         }
       },
       singleuser = {
@@ -28,7 +37,8 @@ resource "helm_release" "jupyterhub" {
           limit     = tonumber(var.nb_cpu_limit),
           guarantee = tonumber(var.nb_cpu_guarantee)
         },
-        defaultUrl = var.jupyter_notebook_default_url
+        defaultUrl   = var.jupyter_notebook_default_url,
+        startTimeout = tonumber(var.nb_start_timeout)
       },
       ingress = {
         enabled = true,
@@ -51,7 +61,8 @@ resource "helm_release" "jupyterhub" {
         }
       },
       hub = {
-        activeServerLimit = tonumber(var.nb_count_limit),
+        activeServerLimit    = tonumber(var.nb_count_limit),
+        concurrentSpawnLimit = tonumber(var.jh_concurrent_spawn_limit),
         config = {
           JupyterHub = {
             admin_access        = true,
