@@ -3,9 +3,9 @@ variable "name" {
     type = string
 }
 
-variable "redirect_uris" {
-    description = "List of valid redirection URLs for cliet"
-    type = list(string)
+variable "redirect_uri" {
+    description = "Valid redirection URL for client"
+    type = string
 }
 
 variable "client_id" {

@@ -26,7 +26,12 @@ data "authentik_property_mapping_provider_scope" "default_oidc_mappings" {
 
 resource "authentik_provider_oauth2" "oidc_provider" {
     name = var.name
-    redirect_uris = var.redirect_uris
+    allowed_redirect_uris = [
+      {
+        matching_mode = "strict",
+        url           = var.redirect_uri
+      }
+    ]
     authorization_flow = data.authentik_flow.authorization_flow.id
     authentication_flow = data.authentik_flow.authentication_flow.id
     invalidation_flow = data.authentik_flow.invalidation_flow.id
