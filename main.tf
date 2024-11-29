@@ -47,9 +47,9 @@ module "authentik" {
 
   depends_on = [kubernetes_namespace.jhaas]
 
-  name          = var.name
-  client_id     = var.oidc_id
-  redirect_uri  = "https://${var.name}.${var.domain}/hub/oauth_callback"
+  name         = var.name
+  client_id    = var.oidc_id
+  redirect_uri = "https://${var.name}.${var.domain}/hub/oauth_callback"
 
   authentication_flow   = var.authentication_flow
   authorization_flow    = var.authorization_flow

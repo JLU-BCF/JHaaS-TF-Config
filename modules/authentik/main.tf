@@ -25,21 +25,21 @@ data "authentik_property_mapping_provider_scope" "default_oidc_mappings" {
 }
 
 resource "authentik_provider_oauth2" "oidc_provider" {
-    name = var.name
-    allowed_redirect_uris = [
-      {
-        matching_mode = "strict",
-        url           = var.redirect_uri
-      }
-    ]
-    authorization_flow = data.authentik_flow.authorization_flow.id
-    authentication_flow = data.authentik_flow.authentication_flow.id
-    invalidation_flow = data.authentik_flow.invalidation_flow.id
-    client_id = var.client_id
-    sub_mode = "user_uuid"
+  name = var.name
+  allowed_redirect_uris = [
+    {
+      matching_mode = "strict",
+      url           = var.redirect_uri
+    }
+  ]
+  authorization_flow  = data.authentik_flow.authorization_flow.id
+  authentication_flow = data.authentik_flow.authentication_flow.id
+  invalidation_flow   = data.authentik_flow.invalidation_flow.id
+  client_id           = var.client_id
+  sub_mode            = "user_uuid"
 
-    # use standard oidc mappers
-    property_mappings = data.authentik_property_mapping_provider_scope.default_oidc_mappings.ids
+  # use standard oidc mappers
+  property_mappings = data.authentik_property_mapping_provider_scope.default_oidc_mappings.ids
 }
 
 resource "authentik_application" "application" {
@@ -54,13 +54,13 @@ resource "authentik_application" "application" {
 }
 
 resource "authentik_policy_binding" "group_binding" {
-  order             = 0
-  target            = authentik_application.application.uuid
-  group             = var.authentik_jh_group_id
+  order  = 0
+  target = authentik_application.application.uuid
+  group  = var.authentik_jh_group_id
 }
 
 resource "authentik_policy_binding" "admin_group_binding" {
-  order             = 10
-  target            = authentik_application.application.uuid
-  group             = data.authentik_group.admins.id
+  order  = 10
+  target = authentik_application.application.uuid
+  group  = data.authentik_group.admins.id
 }
