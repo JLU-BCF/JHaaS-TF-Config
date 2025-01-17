@@ -150,3 +150,15 @@ variable "jh_api_token" {
   description = "API Token for the JHaaS Portal Service"
   type        = string
 }
+
+variable "secret_namespace" {
+  description = "Namespace where the s3 data secret is stored"
+  type        = string
+  default     = "datashim"
+}
+
+variable "secret_name" {
+  description = "Name of the s3 data secret"
+  type        = string
+  default     = "jhaas-s3-data-conf"
+}

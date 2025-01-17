@@ -61,11 +61,21 @@ module "authentik" {
   jh_hostname           = local.jh_hostname
 }
 
+module "datashim" {
+  source = "./modules/datashim"
+
+  depends_on = [kubernetes_namespace.jhaas]
+
+  name             = var.name
+  secret_namespace = var.secret_namespace
+  secret_name      = var.secret_name
+}
+
 # deploy z2jh
 module "jupyterhub" {
   source = "./modules/jupyterhub"
 
-  depends_on = [module.authentik]
+  depends_on = [module.authentik, module.datashim]
 
   helm_chart_version = var.jh_chart_version
   name               = var.name
