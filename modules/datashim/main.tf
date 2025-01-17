@@ -59,7 +59,7 @@ resource "kubernetes_manifest" "s3_data_dataset" {
         bucket      = var.name
         provision   = "true"
         readonly    = "true"
-        endpoint    = "${data.kubernetes_secret.s3_data_main.data["ssl"] == "true" ? "https" : "http"}://${data.kubernetes_secret.s3_data_main.data["endpoint"]}:${data.kubernetes_secret.s3_data_main.data["port"]}"
+        endpoint    = "${data.kubernetes_secret.s3_data_main.data["ssl"] == "true" ? "https" : "http"}://${data.kubernetes_secret.s3_data_main.data["host"]}:${data.kubernetes_secret.s3_data_main.data["port"]}"
         secret-name = var.secret_name
         type        = "COS"
       }
