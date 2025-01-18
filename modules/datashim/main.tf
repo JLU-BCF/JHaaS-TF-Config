@@ -52,7 +52,7 @@ resource "kubernetes_manifest" "s3_data_dataset" {
     kind       = "Dataset"
     metadata = {
       namespace = local.k8s_namespace
-      name      = var.name
+      name      = "${var.name}-shared-fs"
     }
     spec = {
       local = {

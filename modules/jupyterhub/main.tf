@@ -37,6 +37,22 @@ resource "helm_release" "jupyterhub" {
           limit     = tonumber(var.nb_cpu_limit),
           guarantee = tonumber(var.nb_cpu_guarantee)
         },
+        storage = {
+          extraVolumes = [
+            {
+              name = "shared-fs",
+              persistentVolumeClaim = {
+                claimName = "${var.name}-shared-fs"
+              }
+            }
+          ],
+          extraVolumeMounts = [
+            {
+              mountPath = "/data",
+              name = "shared-fs"
+            }
+          ]
+        },
         defaultUrl   = var.jupyter_notebook_default_url,
         startTimeout = tonumber(var.nb_start_timeout)
       },
