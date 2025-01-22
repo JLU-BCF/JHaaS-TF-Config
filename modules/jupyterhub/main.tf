@@ -40,16 +40,26 @@ resource "helm_release" "jupyterhub" {
         storage = {
           extraVolumes = [
             {
-              name = "shared-fs",
+              name = "shared-ro-fs",
               persistentVolumeClaim = {
-                claimName = "${var.name}-shared-fs"
+                claimName = "shared-ro-${var.name}"
+              }
+            },
+            {
+              name = "shared-rw-fs",
+              persistentVolumeClaim = {
+                claimName = "shared-rw-${var.name}"
               }
             }
           ],
           extraVolumeMounts = [
             {
               mountPath = "/data",
-              name = "shared-fs"
+              name = "shared-ro-fs"
+            },
+            {
+              mountPath = "/share",
+              name = "shared-rw-fs"
             }
           ]
         },
