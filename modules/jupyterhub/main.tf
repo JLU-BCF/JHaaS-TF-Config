@@ -37,6 +37,10 @@ resource "helm_release" "jupyterhub" {
           limit     = tonumber(var.nb_cpu_limit),
           guarantee = tonumber(var.nb_cpu_guarantee)
         },
+        storage = {
+          extraVolumes = var.extraVolumes,
+          extraVolumeMounts = var.extraVolumeMounts
+        },
         defaultUrl   = var.jupyter_notebook_default_url,
         startTimeout = tonumber(var.nb_start_timeout)
       },

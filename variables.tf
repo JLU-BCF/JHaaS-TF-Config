@@ -150,3 +150,11 @@ variable "jh_api_token" {
   description = "API Token for the JHaaS Portal Service"
   type        = string
 }
+
+variable "shared_volumes_conf" {
+  default = "{}"
+}
+
+variable "shared_volumes_storageclass" {
+  default = "local-nfs"
+}

@@ -120,3 +120,11 @@ variable "login_service" {
 
 variable "service_portal_api_token" {
 }
+
+variable "extraVolumes" {
+  default = []
+}
+
+variable "extraVolumeMounts" {
+  default = []
+}

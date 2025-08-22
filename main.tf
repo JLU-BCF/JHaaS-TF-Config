@@ -41,6 +41,32 @@ resource "kubernetes_resource_quota" "jhaas" {
   }
 }
 
+# {
+#   name: {
+#     mointpoint: "/srv/data",
+#     readonly: true,
+#     size: "20Gi"
+#   }
+# }
+
+resource "kubernetes_persistent_volume_claim" "shared_volumes" {
+  for_each = local.shared_volumes
+  metadata {
+    name = each.key
+    namespace = local.k8s_namespace
+  }
+  spec {
+    access_modes = ["ReadOnlyMany", "ReadWriteMany"]
+    resources {
+      requests = {
+        storage = each.value["size"]
+      }
+    }
+    storage_class_name = var.shared_volumes_storageclass
+  }
+}
+
+
 # setup OIDC provider + application in authentik
 module "authentik" {
   source = "./modules/authentik"
@@ -97,4 +123,7 @@ module "jupyterhub" {
   nb_start_timeout          = var.nb_start_timeout
 
   service_portal_api_token = var.jh_api_token
+
+  extraVolumes = local.shared_extra_volumes
+  extraVolumeMounts = local.shared_extra_volume_mounts
 }
