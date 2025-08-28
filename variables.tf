@@ -158,3 +158,8 @@ variable "shared_volumes_conf" {
 variable "shared_volumes_storageclass" {
   default = "local-nfs"
 }
+
+variable "fb_chart_version" {
+  description = "Version of the helm chart for the filebrowser to deploy"
+  default     = null
+}

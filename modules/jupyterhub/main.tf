@@ -38,8 +38,8 @@ resource "helm_release" "jupyterhub" {
           guarantee = tonumber(var.nb_cpu_guarantee)
         },
         storage = {
-          extraVolumes = var.extraVolumes,
-          extraVolumeMounts = var.extraVolumeMounts
+          extraVolumes = var.extra_volumes,
+          extraVolumeMounts = var.extra_volume_mounts
         },
         defaultUrl   = var.jupyter_notebook_default_url,
         startTimeout = tonumber(var.nb_start_timeout)

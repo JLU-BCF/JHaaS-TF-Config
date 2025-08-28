@@ -52,7 +52,7 @@ resource "kubernetes_resource_quota" "jhaas" {
 resource "kubernetes_persistent_volume_claim" "shared_volumes" {
   for_each = local.shared_volumes
   metadata {
-    name = each.key
+    name      = each.key
     namespace = local.k8s_namespace
   }
   spec {
@@ -65,7 +65,6 @@ resource "kubernetes_persistent_volume_claim" "shared_volumes" {
     storage_class_name = var.shared_volumes_storageclass
   }
 }
-
 
 # setup OIDC provider + application in authentik
 module "authentik" {
@@ -124,6 +123,35 @@ module "jupyterhub" {
 
   service_portal_api_token = var.jh_api_token
 
-  extraVolumes = local.shared_extra_volumes
-  extraVolumeMounts = local.shared_extra_volume_mounts
+  extra_volumes       = local.jh_shared_extra_volumes
+  extra_volume_mounts = local.jh_shared_extra_volume_mounts
+}
+
+module "filebrowser" {
+  source = "./modules/filebrowser"
+
+  count      = min(length(local.shared_volumes), 1)
+  depends_on = [kubernetes_namespace.jhaas]
+
+  chart_filebrowser_version = var.fb_chart_version
+  jhaas_namespace           = local.k8s_namespace
+
+  filebrowser_name         = local.fb_name
+  filebrowser_display_name = "Filebrowser for ${var.jh_display_name}"
+  filebrowser_description  = "Manage files for ${var.jh_display_name} shared storage"
+  filebrowser_hostname     = local.fb_hostname
+
+
+  authentication_flow = var.authentication_flow
+  authorization_flow  = var.authorization_flow
+  invalidation_flow   = var.invalidation_flow
+
+  filebrowser_oidc_issuer     = "${var.authentik_url}/application/o/${local.fb_name}/"
+  filebrowser_oidc_client     = "${local.fb_name}-client"
+  filebrowser_redirect_uri    = "https://${local.fb_hostname}/api/auth/oidc/callback"
+  filebrowser_oidc_logout_url = "${var.authentik_url}/application/o/${local.fb_name}/end-session/"
+
+  volume_sources      = local.fb_shared_volume_sources
+  extra_volumes       = local.fb_shared_extra_volumes
+  extra_volume_mounts = local.fb_shared_extra_volume_mounts
 }

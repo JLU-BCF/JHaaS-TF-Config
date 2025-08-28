@@ -121,10 +121,10 @@ variable "login_service" {
 variable "service_portal_api_token" {
 }
 
-variable "extraVolumes" {
+variable "extra_volumes" {
   default = []
 }
 
-variable "extraVolumeMounts" {
+variable "extra_volume_mounts" {
   default = []
 }
