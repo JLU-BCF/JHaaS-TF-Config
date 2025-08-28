@@ -161,5 +161,5 @@ variable "shared_volumes_storageclass" {
 
 variable "fb_chart_version" {
   description = "Version of the helm chart for the filebrowser to deploy"
-  default     = null
+  default     = "0.1"
 }
