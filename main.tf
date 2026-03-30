@@ -1,7 +1,7 @@
 # main jhaas control file
 
 provider "helm" {
-  kubernetes {
+  kubernetes = {
     config_path = var.kubeconfig
   }
 }

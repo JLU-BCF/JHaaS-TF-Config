@@ -38,8 +38,10 @@ resource "helm_release" "jupyterhub" {
           guarantee = tonumber(var.nb_cpu_guarantee)
         },
         storage = {
+          capacity = var.nb_home_size,
           extraVolumes = var.extra_volumes,
-          extraVolumeMounts = var.extra_volume_mounts
+          extraVolumeMounts = var.extra_volume_mounts,
+          homeMountPath = var.nb_home_mount_path
         },
         defaultUrl   = var.jupyter_notebook_default_url,
         startTimeout = tonumber(var.nb_start_timeout)
@@ -112,16 +114,4 @@ resource "helm_release" "jupyterhub" {
       }
     }
   )]
-
-  # size of the notebook home directory volume
-  set {
-    name  = "singleuser.storage.capacity"
-    value = var.nb_home_size
-  }
-
-  # mount path of the notebook home directory volume
-  set {
-    name  = "singleuser.storage.homeMountPath"
-    value = var.nb_home_mount_path
-  }
 }

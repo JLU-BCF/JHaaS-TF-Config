@@ -2,15 +2,15 @@ terraform {
   required_providers {
     authentik = {
       source  = "goauthentik/authentik"
-      version = "~> 2024.10.2"
+      version = "~> 2025.12.1"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "~> 2.16.1"
+      version = "~> 3.1.1"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "~> 2.33.0"
+      version = "~> 3.0.1"
     }
   }
 }
